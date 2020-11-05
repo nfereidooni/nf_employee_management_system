@@ -3,6 +3,10 @@ const fs = require ('fs')
 const path = require('path')
 const orm = require( './orm' );
 
+// Welcome user
+
+console.log("Welcome to the Employee Management System.")
+
 // Prompt user questions
 async function promptUser() {
     let result;
@@ -80,3 +84,5 @@ async function promptUser() {
     //    }) 
     await orm.closeORM()
    }
+
+promptUser()
