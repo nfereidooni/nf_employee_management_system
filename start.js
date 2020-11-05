@@ -27,16 +27,28 @@ async function promptUser() {
                     console.table( result )
                     break
                 case "View_D":
+                    result = await orm.viewDepartments()
+                    console.table( result )
                     break
                 case "View_R":
+                    result = await orm.viewRoles()
+                    console.table( result )
                     break
                 case "Add_E":
+                    result = await orm.addEmployee()
+                    console.table( result )
                     break
                 case "Add_D":
+                    result = await orm.addDepartment()
+                    console.table( result )
                     break
                 case "Add_R":
+                    result = await orm.addRole()
+                    console.table( result )
                     break
                 case "Update_ER":
+                    result = await orm.updateEmployeeRole()
+                    console.table( result )
                     break
                 default:      
             }
