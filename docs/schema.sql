@@ -28,4 +28,4 @@ CREATE TABLE employees (
 
 SELECT * FROM departments;
 SELECT * FROM roles;
-SELECT * FROM employeees;
+SELECT * FROM employees;
