@@ -57,8 +57,8 @@ function addRole( title, salary, department_id ){
     return db.query( `INSERT INTO employees (first_name, last_name, department_id, manager_id) VALUES (${title}, ${salary}, ${department_id})` )
 }
 
-function updateEmployeeRole ( first_name, last_name, department_id, manager_id ){
-    return db.query( `INSERT INTO employees (first_name, last_name, department_id, manager_id) VALUES (${first_name}, ${last_name}, ${department_id}, ${manager_id})` )
+function updateEmployeeRole ( id, role_id ){
+    return db.query( `UPDATE employees SET role_id = ${role_id} WHERE id = ${id}` )
 }
 
 function closeORM(){

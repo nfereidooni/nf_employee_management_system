@@ -24,7 +24,7 @@ async function promptUser() {
             {key: "Add_R", value: "Add Role"},
             {key: "Update_ER", value: "Update Employee Role"}
             ]},
-       ]).then(task => {
+       ]).then(task  =>  {
             switch(task.task) {
                 case "View_E":
                     result = await orm.viewEmployees()
@@ -39,24 +39,103 @@ async function promptUser() {
                     console.table( result )
                     break
                 case "Add_E":
-                    result = await orm.addEmployee()
-                    console.table( result )
+                    let rolesList = await orm.viewRoles()
+                    let employeeList = await orm.viewEmployees()
+                    return inquirer.prompt([
+                        {
+                            type: "input",
+                            name: "first_name",
+                            message: "What is the employee's first name?",
+                        },
+                        {
+                            type: "input",
+                            name: "last_name",
+                            message: "What is the employee's last name?",
+                        },
+                        {
+                            type: "input",
+                            name: "first_name",
+                            message: "What is the employee's first name?",
+                        },
+                        {
+                            type: "list",
+                            name: "role",
+                            message: "What is the employee's role?",
+                            choices: []
+                        },
+                        {
+                            type: "list",
+                            name: "manager",
+                            message: "Who is the employee's manager?",
+                            choices: []
+                        }
+                    ]).then(employeeInfo => {
+                        result = await orm.addEmployee( first_name, last_name)
+                        console.log( `Employee (${employeeInfo.last_name}, ${employeeInfo.first_name}) has been added.` )
+                    })
                     break
                 case "Add_D":
-                    result = await orm.addDepartment()
-                    console.table( result )
+                    return inquirer.prompt([
+                        {
+                            type: "input",
+                            name: "dept_name",
+                            message: "What is the department name?",
+                        }
+                    ]).then(deptInfo => {
+                        result = await orm.addDepartment( dept_name )
+                        console.log( `Department (${deptInfo.dept_name}) has been added.` )
+                    })
                     break
                 case "Add_R":
-                    result = await orm.addRole()
-                    console.table( result )
+                    let departmentList = await orm.viewDepartments()
+                    return inquirer.prompt([
+                        {
+                            type: "input",
+                            name: "title",
+                            message: "What is the title of the role?",
+                        },
+                        {
+                            type: "number",
+                            name: "salary",
+                            message: "What is the salary for this role?",
+                        },
+                        {
+                            type: "list",
+                            name: "department",
+                            message: "Which department does this role belong to?",
+                            choices: []
+                        }
+                    ]).then(roleInfo => {
+                        result = await orm.addRole( title )
+                        console.log( `Role (${roleInfo.title}) has been added.` )
+                    })
                     break
                 case "Update_ER":
-                    result = await orm.updateEmployeeRole()
-                    console.table( result )
+                    let rolesList = await orm.viewRoles()
+                    let employeeList = await orm.viewEmployees()
+                    return inquirer.prompt([
+                    {
+                        type: "list",
+                        name: "employee",
+                        message: "Which employee would you like to update?",
+                        choices: []
+                    },
+                    {
+                        type: "list",
+                        name: "role",
+                        message: "What is the employee's new role?",
+                        choices: []
+                    },
+                    ]).then(employeeInfo => {
+                        result = await orm.updateEmployeeRole()
+                        console.log( `Employee's role has been updated.` )
+                    })
                     break
                 default:      
             }
+            await orm.closeORM()
        })
+
             
     //         if (task.task == "View_E"){
     //            return inquirer.prompt([
@@ -82,7 +161,7 @@ async function promptUser() {
     //            return "Update to employee"
     //         }
     //    }) 
-    await orm.closeORM()
+    
    }
 
 promptUser()
